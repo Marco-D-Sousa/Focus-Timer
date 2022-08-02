@@ -11,7 +11,6 @@ const coffeeShopBtn = document.querySelector(".coffeeShop");
 const coffeeShopOnBtn = document.querySelector(".coffeeShopOn");
 const fireplaceBtn = document.querySelector(".fireplace");
 const fireplaceOnBtn = document.querySelector(".fireplaceOn");
-const itemOn = document.getElementsByClassName('select');
 
 const forestAudio = new Audio('./sounds/Floresta.wav');
 const rainAudio = new Audio('./sounds/Chuva.wav');
@@ -73,59 +72,77 @@ minusBtn.addEventListener('click', function() {
 forestBtn.addEventListener('click', function() {
     forestBtn.classList.toggle('hide')
     forestOnBtn.classList.toggle('hide')
-    forestOnBtn.classList.toggle('select')
-    console.log(itemOn)
     forestAudio.play()
 })
 
 forestOnBtn.addEventListener('click', function() {
     forestBtn.classList.toggle('hide')
     forestOnBtn.classList.toggle('hide')
-    forestOnBtn.classList.toggle('select')
     forestAudio.pause()
 })
 
 rainBtn.addEventListener('click', function() {
     rainBtn.classList.toggle('hide');
     rainOnBtn.classList.toggle('hide');
-    rainOnBtn.classList.toggle('select');
-    itemOn.item(0).classList.remove('select')
-    console.log(itemOn)
     rainAudio.play()
 })
 
 rainOnBtn.addEventListener('click', function() {
     rainBtn.classList.toggle('hide');
     rainOnBtn.classList.toggle('hide');
-    rainOnBtn.classList.toggle('select');
     rainAudio.pause()
 })
 
 coffeeShopBtn.addEventListener('click', function() {
     coffeeShopBtn.classList.toggle('hide')
     coffeeShopOnBtn.classList.toggle('hide')
-    coffeeShopOnBtn.classList.toggle('select')
     coffeeShopAudio.play()
 })
 
 coffeeShopOnBtn.addEventListener('click', function() {
     coffeeShopBtn.classList.toggle('hide')
     coffeeShopOnBtn.classList.toggle('hide')
-    coffeeShopOnBtn.classList.toggle('select')
     coffeeShopAudio.pause()
 })
 
 fireplaceBtn.addEventListener('click', function() {
     fireplaceBtn.classList.toggle('hide')
     fireplaceOnBtn.classList.toggle('hide')
-    fireplaceOnBtn.classList.toggle('select')
     fireplaceAudio.play()
 })
 
 fireplaceOnBtn.addEventListener('click', function() {
     fireplaceBtn.classList.toggle('hide')
     fireplaceOnBtn.classList.toggle('hide')
-    fireplaceOnBtn.classList.toggle('select')
     fireplaceAudio.pause()
 })
 
+
+//Dark mode and Light mode
+const html = document.querySelector('html');
+const checkbox = document.querySelector('input[name=theme]');
+const getStyle = (element, style) => window.getComputedStyle(element).getPropertyValue(style)
+
+const lightColors = {
+    bg: getStyle(html, "--bg"),
+    colorText: getStyle(html, "--color-text"),
+    colorBtn: getStyle(html, "--color-btn"),
+}
+
+const darkColors = {
+    bg: "#333",
+    colorText: "#e1e1e6",
+    colorBtn: "#e1e1e6"
+}
+
+const transformKey = key => "--" + key.replace(/([A-Z])/, "-$1").toLowerCase()
+
+const changeColors = (colors) => {
+    Object.keys(colors).map(key =>
+        html.style.setProperty(transformKey(key), colors[key])    
+    )
+}
+
+checkbox.addEventListener("change", ({target}) => {
+    target.checked ? changeColors(darkColors) : changeColors(lightColors)
+})
